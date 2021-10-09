@@ -1,0 +1,45 @@
+{
+  "name": "3q-server",
+  "version": "1.0.0",
+  "description": "3Q Web Server",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "eslint \\\"**/*.{ts,tsx}\\\"",
+    "start": "nodemon src/index.ts",
+    "build": "tsc && babel src --out-dir dist --extensions .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmonfre/3q-server.git"
+  },
+  "author": "Thomas Monfre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmonfre/3q-server/issues"
+  },
+  "homepage": "https://github.com/tmonfre/3q-server#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^16.10.3",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "nodemon": "^2.0.13",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}
