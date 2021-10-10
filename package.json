@@ -23,7 +23,6 @@
     "cors": "^2.8.5",
     "eslint-import-resolver-typescript": "^2.5.0",
     "express": "^4.17.1",
-    "module-alias": "^2.2.2",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
