@@ -4,12 +4,12 @@ enum ResponseCodes {
   InternalError = 500
 }
 
-enum ErrorResponseMessages {
+enum DefaultErrorMessages {
   NotFound = 'document not found',
   InternalError = 'an error was encountered'
 }
 
 export {
   ResponseCodes,
-  ErrorResponseMessages,
+  DefaultErrorMessages,
 };

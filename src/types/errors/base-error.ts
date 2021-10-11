@@ -1,4 +1,4 @@
-import { ErrorResponseMessages } from '../../constants';
+import { DefaultErrorMessages } from '../../constants';
 
 class BaseError extends Error {
     name: string;
@@ -8,7 +8,7 @@ class BaseError extends Error {
     data: Record<string, unknown>;
 
     constructor(
-      message: string = ErrorResponseMessages.InternalError,
+      message: string = DefaultErrorMessages.InternalError,
       data: Record<string, unknown> = {},
     ) {
       super(message);

@@ -1,9 +1,9 @@
 import BaseError from './base-error';
-import { ErrorResponseMessages } from '../../constants';
+import { DefaultErrorMessages } from '../../constants';
 
 class NotFoundError extends BaseError {
   constructor(
-    message: string = ErrorResponseMessages.NotFound,
+    message: string = DefaultErrorMessages.NotFound,
     documentId: string,
   ) {
     super(message, {
