@@ -9,7 +9,12 @@ enum DefaultErrorMessages {
   InternalError = 'an error was encountered'
 }
 
+enum DBTableNames {
+  Users = 'Users'
+}
+
 export {
   ResponseCodes,
   DefaultErrorMessages,
+  DBTableNames,
 };

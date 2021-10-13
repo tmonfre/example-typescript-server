@@ -1,7 +1,2 @@
-import * as Errors from './errors';
-import ServerResponse from './server-response';
-
-export {
-  Errors,
-  ServerResponse,
-};
+export { default as ServerResponse } from './server-response';
+export * as Errors from './errors';

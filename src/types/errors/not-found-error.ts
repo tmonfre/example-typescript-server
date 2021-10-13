@@ -3,8 +3,8 @@ import { DefaultErrorMessages } from '../../constants';
 
 class NotFoundError extends BaseError {
   constructor(
-    message: string = DefaultErrorMessages.NotFound,
     documentId: string,
+    message: string = DefaultErrorMessages.NotFound,
   ) {
     super(message, {
       documentId,
