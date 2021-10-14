@@ -6,6 +6,10 @@ interface InstantiatedControllers {
     User: UserController
 }
 
+export enum ControllerTypes {
+  User = 'User',
+}
+
 class Controllers {
     private static controllers: InstantiatedControllers
 

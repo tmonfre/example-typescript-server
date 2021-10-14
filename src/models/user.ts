@@ -8,7 +8,7 @@ interface UserModel {
   firstName: string
   lastName: string
   email: string
-  saltedPassword?: string
+  saltedPassword: string
   isAdmin?: boolean
   createdDate?: Date
 }
@@ -25,10 +25,10 @@ class UserTable implements DBTable {
     public async initialize(): Promise<Query> {
       const queryString = `
             CREATE TABLE IF NOT EXISTS ${this.tableName} (
-                id VARCHAR(36) PRIMARY KEY,
+                id VARCHAR(36),
+                email VARCHAR(50) PRIMARY KEY,
                 firstName VARCHAR(50),
                 lastName VARCHAR(50),
-                email VARCHAR(50),
                 saltedPassword VARCHAR(65) NOT NULL,
                 isAdmin BOOLEAN DEFAULT FALSE,
                 createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -54,6 +54,15 @@ class UserTable implements DBTable {
     public async fetchById(id: string): Promise<Query> {
       const queryString = `SELECT * FROM ${this.tableName} WHERE id=?;`;
       return this.dbConnection.query(queryString, [id]);
+    }
+
+    /**
+     * @description fetches user by email
+     * @returns {Promise<Query>} promise-wrapped query
+     */
+    public async fetchByEmail(email: string): Promise<Query> {
+      const queryString = `SELECT * FROM ${this.tableName} WHERE email=?;`;
+      return this.dbConnection.query(queryString, [email]);
     }
 
     /**
@@ -103,6 +112,21 @@ class UserTable implements DBTable {
     }
 
     /**
+     * @description updates user object by user email
+     * @param id user id
+     * @param fields user object fields to update
+     * @returns {Promise<Query>} promise-wrapped query
+     */
+    public async updateByEmail(email: string, fields: Record<string, unknown>): Promise<Query> {
+      const queryString = `
+        UPDATE ${this.tableName}
+        SET ${Object.keys(fields).map((field) => `${field}=?`).join(', ')}
+        WHERE email=?;
+      `;
+      return this.dbConnection.query(queryString, [...Object.values(fields), email]);
+    }
+
+    /**
      * @description deletes user by user id
      * @param id user id
      * @returns {Promise<Query>} promise-wrapped query
@@ -110,6 +134,16 @@ class UserTable implements DBTable {
     public async deleteById(id: string): Promise<Query> {
       const queryString = `DELETE FROM ${this.tableName} WHERE id=?;`;
       return this.dbConnection.query(queryString, [id]);
+    }
+
+    /**
+     * @description deletes user by user email
+     * @param id user id
+     * @returns {Promise<Query>} promise-wrapped query
+     */
+    public async deleteByEmail(email: string): Promise<Query> {
+      const queryString = `DELETE FROM ${this.tableName} WHERE email=?;`;
+      return this.dbConnection.query(queryString, [email]);
     }
 
     /**
