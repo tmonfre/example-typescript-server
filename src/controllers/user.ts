@@ -9,12 +9,37 @@ import { AuthCredentials } from '../utils/auth';
 
 import { NotFoundError, UnauthorizedError, BaseError } from '../types/errors';
 
-class UserController {
-  private userTable: UserTable
+export interface IUserController {
+  getAllUsers(): Promise<Array<UserModel>>
+  getUserById(id: string): Promise<UserModel>
+  getUserByEmail(email: string): Promise<UserModel>
+  createUser(
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+  ): Promise<ResultWithModel>
+  updateUserById(
+    userId: string,
+    fields: Record<string, unknown>,
+  ): Promise<ResultWithModel>
+  updateUserByEmail(
+    email: string,
+    fields: Record<string, unknown>,
+  ): Promise<ResultWithModel>
+  deleteUserById(userId: string): Promise<ResultSetHeader>
+  deleteUserByEmail(email: string): Promise<ResultSetHeader>
+  deleteAllUsers(): Promise<ResultSetHeader>
+  isAuthedUser(credentials: AuthCredentials): Promise<UserModel>
+  tokenForUser(userId: string): string
+}
+
+class UserController implements IUserController {
+  private table: UserTable
 
   constructor(dbConnection: Connection) {
     const { Users: userTable } = Tables.getInstantiatedTables(dbConnection);
-    this.userTable = <UserTable> userTable;
+    this.table = <UserTable> userTable;
   }
 
   /**
@@ -22,7 +47,7 @@ class UserController {
    * @returns {Promise<Array<UserModel>>} array of user objects
   */
   public async getAllUsers(): Promise<Array<UserModel>> {
-    const query = await this.userTable.fetchAll();
+    const query = await this.table.fetchAll();
 
     const rows = <RowDataPacket[]> query[0];
     const users = rows.map((row) => <UserModel> row);
@@ -36,7 +61,7 @@ class UserController {
    * @returns {Promise<UserModel>} matching user object
   */
   public async getUserById(id: string): Promise<UserModel> {
-    const query = await this.userTable.fetchById(id);
+    const query = await this.table.fetchById(id);
 
     const rows = <RowDataPacket[]> query[0];
     const result = <UserModel> rows[0];
@@ -51,7 +76,7 @@ class UserController {
    * @returns {Promise<UserModel>} matching user object
   */
   public async getUserByEmail(email: string): Promise<UserModel> {
-    const query = await this.userTable.fetchByEmail(email);
+    const query = await this.table.fetchByEmail(email);
 
     const rows = <RowDataPacket[]> query[0];
     const result = <UserModel> rows[0];
@@ -87,7 +112,7 @@ class UserController {
             reject(new BaseError('Error hashing user-provided password', { error: hashError }));
           } else {
             try {
-              const { uuid, query } = await this.userTable.insert({
+              const { uuid, query } = await this.table.insert({
                 firstName,
                 lastName,
                 email,
@@ -120,7 +145,7 @@ class UserController {
     await this.getUserById(userId);
 
     // perform update then grab updated object
-    const query = await this.userTable.updateById(userId, fields);
+    const query = await this.table.updateById(userId, fields);
     const user = await this.getUserById(userId);
 
     return { model: user, result: <ResultSetHeader> query[0] };
@@ -140,7 +165,7 @@ class UserController {
     await this.getUserByEmail(email);
 
     // perform update then grab updated object
-    const query = await this.userTable.updateByEmail(email, fields);
+    const query = await this.table.updateByEmail(email, fields);
     const user = await this.getUserByEmail(email);
 
     return { model: user, result: <ResultSetHeader> query[0] };
@@ -152,7 +177,7 @@ class UserController {
    * @returns {Promise<ResultSetHeader>} result of delete command
   */
   public async deleteUserById(userId: string): Promise<ResultSetHeader> {
-    const query = await this.userTable.deleteById(userId);
+    const query = await this.table.deleteById(userId);
     return <ResultSetHeader> query[0];
   }
 
@@ -162,7 +187,7 @@ class UserController {
    * @returns {Promise<ResultSetHeader>} result of delete command
   */
   public async deleteUserByEmail(email: string): Promise<ResultSetHeader> {
-    const query = await this.userTable.deleteByEmail(email);
+    const query = await this.table.deleteByEmail(email);
     return <ResultSetHeader> query[0];
   }
 
@@ -171,7 +196,7 @@ class UserController {
    * @returns {Promise<ResultSetHeader>} result of delete command
   */
   public async deleteAllUsers(): Promise<ResultSetHeader> {
-    const query = await this.userTable.deleteAll();
+    const query = await this.table.deleteAll();
     return <ResultSetHeader> query[0];
   }
 

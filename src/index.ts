@@ -21,6 +21,7 @@ app.use(express.json());
 
 // declare routers
 app.use('/users', routers.userRouter);
+app.use('/mindfulness-entries', routers.mindfulnessEntryRouter);
 
 // base route
 app.get('/', (_req, res) => {

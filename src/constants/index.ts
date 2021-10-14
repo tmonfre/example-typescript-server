@@ -14,11 +14,12 @@ enum DefaultErrorMessages {
 }
 
 enum DBTableNames {
-  Users = 'Users'
+  Users = 'Users',
+  MindfulnessEntries = 'MindfulnessEntries'
 }
 
 export {
-  ResponseCodes,
-  DefaultErrorMessages,
   DBTableNames,
+  DefaultErrorMessages,
+  ResponseCodes,
 };

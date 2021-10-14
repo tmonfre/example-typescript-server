@@ -7,8 +7,9 @@ import mysql, {
 } from 'mysql2/promise';
 
 import { UserModel } from './user';
+import { MindfulnessEntryModel } from './mindfulness-entry';
 
-type Model = UserModel | Record<string, unknown>
+type Model = UserModel | MindfulnessEntryModel | Record<string, unknown>
 
 export type Query = Array<Array<RowDataPacket> | Array<Array<RowDataPacket>> |
   OkPacket | Array<OkPacket> | ResultSetHeader | Array<FieldPacket>>

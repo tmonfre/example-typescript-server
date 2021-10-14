@@ -1,8 +1,9 @@
 import { Connection } from 'mysql2/promise';
 import { DBTable, Query } from './db';
 import { UserModel, UserTable } from './user';
+import { MindfulnessEntryModel, MindfulnessEntryTable } from './mindfulness-entry';
 
-type AllTables = UserTable | DBTable
+type AllTables = UserTable | MindfulnessEntryTable | DBTable
 
 /**
  * static singleton class to hold instantiated tables
@@ -35,6 +36,7 @@ export default class Tables {
       if (!this.instantiatedTables) {
         const tables = [
           new UserTable(dbConnection),
+          new MindfulnessEntryTable(dbConnection),
         ];
 
         this.instantiatedTables = tables.reduce((
@@ -52,4 +54,5 @@ export default class Tables {
 
 export {
   UserModel,
+  MindfulnessEntryModel,
 };
