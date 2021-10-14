@@ -3,38 +3,14 @@ import bcrypt from 'bcrypt-nodejs';
 import jwt from 'jwt-simple';
 
 import Tables from '../models';
+import Controllers from './index';
 import { ResultWithModel } from '../models/db';
 import { UserTable, UserModel } from '../models/user';
 import { AuthCredentials } from '../utils/auth';
 
 import { NotFoundError, UnauthorizedError, BaseError } from '../types/errors';
 
-export interface IUserController {
-  getAllUsers(): Promise<Array<UserModel>>
-  getUserById(id: string): Promise<UserModel>
-  getUserByEmail(email: string): Promise<UserModel>
-  createUser(
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-  ): Promise<ResultWithModel>
-  updateUserById(
-    userId: string,
-    fields: Record<string, unknown>,
-  ): Promise<ResultWithModel>
-  updateUserByEmail(
-    email: string,
-    fields: Record<string, unknown>,
-  ): Promise<ResultWithModel>
-  deleteUserById(userId: string): Promise<ResultSetHeader>
-  deleteUserByEmail(email: string): Promise<ResultSetHeader>
-  deleteAllUsers(): Promise<ResultSetHeader>
-  isAuthedUser(credentials: AuthCredentials): Promise<UserModel>
-  tokenForUser(userId: string): string
-}
-
-class UserController implements IUserController {
+class UserController {
   private table: UserTable
 
   constructor(dbConnection: Connection) {
@@ -58,31 +34,45 @@ class UserController implements IUserController {
   /**
    * @description retrieves user object with specified id
    * @param id user id
+   * @param joinEntries optional -- will grab all of user's entries
    * @returns {Promise<UserModel>} matching user object
   */
-  public async getUserById(id: string): Promise<UserModel> {
+  public async getUserById(id: string, joinEntries = false): Promise<UserModel> {
     const query = await this.table.fetchById(id);
 
     const rows = <RowDataPacket[]> query[0];
     const result = <UserModel> rows[0];
 
-    if (result) return result;
-    throw new NotFoundError(id);
+    if (!result) throw new NotFoundError(id);
+
+    if (joinEntries) {
+      result.mindfulnessEntries = await Controllers.getControllers().MindfulnessEntry
+        .getEntriesForUserId(id);
+    }
+
+    return result;
   }
 
   /**
    * @description retrieves user object with specified email
    * @param email user email
+   * @param joinEntries optional -- will grab all of user's entries
    * @returns {Promise<UserModel>} matching user object
   */
-  public async getUserByEmail(email: string): Promise<UserModel> {
+  public async getUserByEmail(email: string, joinEntries = false): Promise<UserModel> {
     const query = await this.table.fetchByEmail(email);
 
     const rows = <RowDataPacket[]> query[0];
     const result = <UserModel> rows[0];
 
-    if (result) return result;
-    throw new NotFoundError(email);
+    if (!result) throw new NotFoundError(email);
+
+    if (joinEntries) {
+      result.mindfulnessEntries = await Controllers.getControllers().MindfulnessEntry
+        .getEntriesForUserId(result.id || 'unknown');
+    }
+
+    return result;
   }
 
   /**

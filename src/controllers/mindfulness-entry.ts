@@ -6,11 +6,7 @@ import { MindfulnessEntryTable, MindfulnessEntryModel } from '../models/mindfuln
 
 import { NotFoundError } from '../types/errors';
 
-export interface IMindfulnessEntryController {
-  getAllEntries(): Promise<Array<MindfulnessEntryModel>>
-}
-
-class MindfulnessEntryController implements IMindfulnessEntryController {
+class MindfulnessEntryController {
   private table: MindfulnessEntryTable
 
   constructor(dbConnection: Connection) {

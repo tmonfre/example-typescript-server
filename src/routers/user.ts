@@ -88,9 +88,10 @@ router.route('/')
 router.route('/id/:id')
   .get(requireAdminOrAuth, async (req: Request, res: Response) => {
     const controller = Controllers.getControllers().User;
+    const joinEntries = (<string> req.query.joinEntries || '').toLowerCase();
 
     try {
-      const user = await controller.getUserById(req.params.id);
+      const user = await controller.getUserById(req.params.id, joinEntries === 'true');
       res.send(new ServerResponse({ ...user }));
     } catch (error) {
       const { statusCode, payload } = generateErrorResponse(error);
@@ -123,9 +124,10 @@ router.route('/id/:id')
 router.route('/email/:email')
   .get(requireAdminOrAuth, async (req: Request, res: Response) => {
     const controller = Controllers.getControllers().User;
+    const joinEntries = (<string> req.query.joinEntries || '').toLowerCase();
 
     try {
-      const user = await controller.getUserByEmail(req.params.email);
+      const user = await controller.getUserByEmail(req.params.email, joinEntries === 'true');
       res.send(new ServerResponse({ ...user }));
     } catch (error) {
       const { statusCode, payload } = generateErrorResponse(error);

@@ -3,8 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 
-import * as routers from './routers';
-import { ServerResponse } from './types';
+import * as Routers from './routers';
 import DB from './models/db';
 import Tables from './models';
 import Controllers from './controllers';
@@ -20,13 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // declare routers
-app.use('/users', routers.userRouter);
-app.use('/mindfulness-entries', routers.mindfulnessEntryRouter);
-
-// base route
-app.get('/', (_req, res) => {
-  res.send(new ServerResponse({}));
-});
+app.use('/users', Routers.userRouter);
+app.use('/mindfulness-entries', Routers.mindfulnessEntryRouter);
 
 const port = process.env.PORT || 9090;
 

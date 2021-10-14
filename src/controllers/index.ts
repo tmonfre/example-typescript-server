@@ -1,7 +1,7 @@
 import { Connection } from 'mysql2/promise';
 
-import UserController, { IUserController } from './user';
-import MindfulnessEntryController, { IMindfulnessEntryController } from './mindfulness-entry';
+import UserController from './user';
+import MindfulnessEntryController from './mindfulness-entry';
 
 interface InstantiatedControllers {
     User: UserController
@@ -29,8 +29,8 @@ class Controllers {
 }
 
 export {
-  IUserController,
-  IMindfulnessEntryController,
+  UserController,
+  MindfulnessEntryController,
 };
 
 export default Controllers;
