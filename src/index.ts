@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
@@ -13,6 +13,13 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
+
+app.use((_req: Request, res: Response, next: NextFunction) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 app.use(morgan('dev'));
 
 app.use(express.urlencoded({ extended: true }));
