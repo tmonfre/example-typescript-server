@@ -15,7 +15,7 @@ enum DefaultErrorMessages {
 
 enum DBTableNames {
   Users = 'Users',
-  MindfulnessEntries = 'MindfulnessEntries'
+  Entries = 'Entries'
 }
 
 export {

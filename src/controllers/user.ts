@@ -46,7 +46,7 @@ class UserController {
     if (!result) throw new NotFoundError(id);
 
     if (joinEntries) {
-      result.mindfulnessEntries = await Controllers.getControllers().MindfulnessEntry
+      result.entries = await Controllers.getControllers().Entry
         .getEntriesForUserId(id);
     }
 
@@ -68,7 +68,7 @@ class UserController {
     if (!result) throw new NotFoundError(email);
 
     if (joinEntries) {
-      result.mindfulnessEntries = await Controllers.getControllers().MindfulnessEntry
+      result.entries = await Controllers.getControllers().Entry
         .getEntriesForUserId(result.id || 'unknown');
     }
 

@@ -27,7 +27,7 @@ app.use(express.json());
 
 // declare routers
 app.use('/users', Routers.userRouter);
-app.use('/mindfulness-entries', Routers.mindfulnessEntryRouter);
+app.use('/entries', Routers.entryRouter);
 
 const port = process.env.PORT || 9090;
 

@@ -1,16 +1,16 @@
 import { Connection } from 'mysql2/promise';
 
 import UserController from './user';
-import MindfulnessEntryController from './mindfulness-entry';
+import EntryController from './entry';
 
 interface InstantiatedControllers {
     User: UserController
-    MindfulnessEntry: MindfulnessEntryController
+    Entry: EntryController
 }
 
 export enum ControllerTypes {
   User = 'User',
-  MindfulnessEntry = 'MindfulnessEntry'
+  Entry = 'Entry'
 }
 
 class Controllers {
@@ -19,7 +19,7 @@ class Controllers {
     public static initializeAllControllers(dbConnection: Connection): void {
       this.controllers = {
         User: new UserController(dbConnection),
-        MindfulnessEntry: new MindfulnessEntryController(dbConnection),
+        Entry: new EntryController(dbConnection),
       };
     }
 
@@ -30,7 +30,7 @@ class Controllers {
 
 export {
   UserController,
-  MindfulnessEntryController,
+  EntryController,
 };
 
 export default Controllers;

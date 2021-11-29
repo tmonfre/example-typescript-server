@@ -1,7 +1,7 @@
 {
-  "name": "3q-server",
+  "name": "example-typescript-server",
   "version": "1.0.0",
-  "description": "3Q Web Server",
+  "description": "Example Web Server",
   "main": "src/index.js",
   "scripts": {
     "test": "eslint \\\"**/*.{ts,tsx}\\\"",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tmonfre/3q-server.git"
+    "url": "git+https://github.com/tmonfre/example-typescript-server.git"
   },
   "author": "Thomas Monfre",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tmonfre/3q-server/issues"
+    "url": "https://github.com/tmonfre/example-typescript-server/issues"
   },
-  "homepage": "https://github.com/tmonfre/3q-server#readme",
+  "homepage": "https://github.com/tmonfre/example-typescript-server#readme",
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.19.0",

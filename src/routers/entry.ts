@@ -15,7 +15,7 @@ const router = express();
 
 router.route('/')
   .get(requireAdmin, async (_req: Request, res: Response) => {
-    const controller = Controllers.getControllers().MindfulnessEntry;
+    const controller = Controllers.getControllers().Entry;
 
     try {
       const entries = await controller.getAllEntries();
@@ -26,22 +26,15 @@ router.route('/')
     }
   })
   .post(requireAuth, async (req: Request, res: Response) => {
-    const controller = Controllers.getControllers().MindfulnessEntry;
+    const controller = Controllers.getControllers().Entry;
 
     try {
       const { id: userId } = <UserModel> req.user;
-
-      const {
-        questionGrateful,
-        questionServiceSelf,
-        questionServiceOthers,
-      } = req.body;
+      const { exampleValue } = req.body;
 
       const result = await controller.createEntry(
         userId || 'unknown',
-        questionGrateful,
-        questionServiceSelf,
-        questionServiceOthers,
+        exampleValue,
       );
 
       res.send(new ServerResponse({ ...result }));
@@ -51,7 +44,7 @@ router.route('/')
     }
   })
   .delete(requireAdmin, async (_req: Request, res: Response) => {
-    const controller = Controllers.getControllers().MindfulnessEntry;
+    const controller = Controllers.getControllers().Entry;
 
     try {
       const entry = await controller.deleteAllEntries();
@@ -64,7 +57,7 @@ router.route('/')
 
 router.route('/id/:id')
   .get(requireAdminOrAuth, async (req: Request, res: Response) => {
-    const controller = Controllers.getControllers().MindfulnessEntry;
+    const controller = Controllers.getControllers().Entry;
 
     try {
       const entry = await controller.getEntryById(req.params.id);
@@ -75,7 +68,7 @@ router.route('/id/:id')
     }
   })
   .put(requireAdminOrAuth, async (req: Request, res: Response) => {
-    const controller = Controllers.getControllers().MindfulnessEntry;
+    const controller = Controllers.getControllers().Entry;
 
     try {
       const entry = await controller.updateEntryById(req.params.id, req.body);
@@ -86,7 +79,7 @@ router.route('/id/:id')
     }
   })
   .delete(requireAdmin, async (req: Request, res: Response) => {
-    const controller = Controllers.getControllers().MindfulnessEntry;
+    const controller = Controllers.getControllers().Entry;
 
     try {
       const entry = await controller.deleteEntryById(req.params.id);
@@ -99,7 +92,7 @@ router.route('/id/:id')
 
 router.route('/userId/:userId')
   .get(requireAdminOrAuth, async (req: Request, res: Response) => {
-    const controller = Controllers.getControllers().MindfulnessEntry;
+    const controller = Controllers.getControllers().Entry;
 
     try {
       const entries = await controller.getEntriesForUserId(req.params.userId);

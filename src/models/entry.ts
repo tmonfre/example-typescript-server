@@ -3,17 +3,15 @@ import { Connection } from 'mysql2/promise';
 import DB, { DBTable, Query, QueryWithUUID } from './db';
 import { DBTableNames } from '../constants';
 
-interface MindfulnessEntryModel {
+interface EntryModel {
   id?: string
   userId: string
-  questionGrateful: string
-  questionServiceSelf: string
-  questionServiceOthers: string
+  exampleValue: string
   createdDate?: Date
 }
 
-class MindfulnessEntryTable implements DBTable {
-    public tableName = DBTableNames.MindfulnessEntries
+class EntryTable implements DBTable {
+    public tableName = DBTableNames.Entries
 
     private dbConnection: Connection
 
@@ -26,9 +24,7 @@ class MindfulnessEntryTable implements DBTable {
             CREATE TABLE IF NOT EXISTS ${this.tableName} (
                 id VARCHAR(36) PRIMARY KEY,
                 userId VARCHAR(36),
-                questionGrateful VARCHAR(280),
-                questionServiceSelf VARCHAR(280),
-                questionServiceOthers VARCHAR(280),
+                exampleValue VARCHAR(280),
                 createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         `;
@@ -66,26 +62,22 @@ class MindfulnessEntryTable implements DBTable {
     /**
      * @description creates a single entry
      * @param userId user id
-     * @param questionGrateful answer to gratefulness question
-     * @param questionServiceSelf answer to service self question
-     * @param questionServiceOthers answer to service others question
+     * @param exampleValue example string value
      * @returns {Promise<Query>} promise-wrapped query
      */
-    public async insert(object: MindfulnessEntryModel): Promise<QueryWithUUID> {
+    public async insert(object: EntryModel): Promise<QueryWithUUID> {
       const uuid = await DB.generateUUID();
 
       const queryString = `
         INSERT INTO ${this.tableName}
-        (id, userId, questionGrateful, questionServiceSelf, questionServiceOthers)
-        VALUES (?, ?, ?, ?, ?);
+        (id, userId, exampleValue)
+        VALUES (?, ?, ?);
     `;
 
       const query = await this.dbConnection.query(queryString, [
         uuid,
         object.userId,
-        object.questionGrateful,
-        object.questionServiceSelf,
-        object.questionServiceOthers,
+        object.exampleValue,
       ]);
 
       return {
@@ -130,6 +122,6 @@ class MindfulnessEntryTable implements DBTable {
 }
 
 export {
-  MindfulnessEntryModel,
-  MindfulnessEntryTable,
+  EntryModel,
+  EntryTable,
 };

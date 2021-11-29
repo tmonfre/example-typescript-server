@@ -2,7 +2,7 @@ import { Connection } from 'mysql2/promise';
 
 import DB, { DBTable, Query, QueryWithUUID } from './db';
 import { DBTableNames } from '../constants';
-import { MindfulnessEntryModel } from './mindfulness-entry';
+import { EntryModel } from './entry';
 
 interface UserModel {
   id?: string
@@ -12,7 +12,7 @@ interface UserModel {
   saltedPassword: string
   isAdmin?: boolean
   createdDate?: Date
-  mindfulnessEntries?: Array<MindfulnessEntryModel>
+  entries?: Array<EntryModel>
 }
 
 class UserTable implements DBTable {
